@@ -1,8 +1,18 @@
-VAR=hello
-VAR2=world
+FC=gfortran
+FFLAGS=-O3 -Wtabs -Wall -Wextra 
+SRC=precision.F90,precision_demo.F90
+OBJ=${SRC:.F90=.o}
 
-merry:
-	@echo ${VAR}
+%.o: %.F90
+	$(FC) $(FFLAGS) -o $@ -c $<
 
-fun: merry
-	@echo ${VAR2}
+precision_demo: $(OBJ)
+	$(FC) $(FFLAGS) -o $@ $(OBJ)
+#maths: $(OBJ)
+#	$(FC) $(FFLAGS) -o $@ $(OBJ)
+
+clean:
+	@rm -f *.mod *.o maths
+
+precision_demo.o : precision.o 
+
